@@ -1,0 +1,21 @@
+'use strict';
+
+const debug = require('debug')('apostilla:correo');
+
+const correoConfig = {
+  origen: process.env.EMAIL_SENDER || 'info@midominio.gob.bo',
+  host: process.env.EMAIL_HOST || 'smtp.midominio.gob.bo',
+  port: process.env.EMAIL_PORT || 587,
+  secure: false,
+  ignoreTLS: false,
+  auth: {
+    user: '<unusuario@midominio.gob.bo>', // Obligatorio para desarrollo
+    pass: '<password>' // Obligatorio para desarrollo
+  },
+  tls: {
+    rejectUnauthorized: false
+  },
+  logging: s => debug(s)
+};
+
+module.exports = correoConfig;

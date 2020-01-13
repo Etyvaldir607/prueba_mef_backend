@@ -1,0 +1,12 @@
+postgresql_databases:
+  - name: database
+    owner: agetic
+    hstore: yes
+postgresql_users:
+  - name: agetic
+    pass: agetic
+    encrypted: no
+postgresql_user_privileges:
+  - name: agetic
+    db: database
+    priv: "ALL"

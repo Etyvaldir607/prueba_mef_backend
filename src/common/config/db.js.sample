@@ -1,0 +1,15 @@
+'use strict';
+
+const debug = require('debug')('app:db');
+
+const db = {
+  database: process.env.DB_NAME || 'postgres',
+  username: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASS || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  dialect: 'postgres',
+  timezone: 'America/La_Paz',
+  logging: s => debug(s)
+};
+
+module.exports = db;
