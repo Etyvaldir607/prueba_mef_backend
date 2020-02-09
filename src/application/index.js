@@ -18,7 +18,11 @@ module.exports = async function setupModule (settings = { iop: true }) {
     services.Parametro = await Params(config.db);
 
     // Agregando Logs a los servicios
-    services.Log = await Logs(config.db);
+    if (config.logs.storage === 'database') {
+      services.Log = await Logs(config.db);
+    } else if (config.logs.storage === 'filesystem') {
+      services.Log = await Logs({ logsConfig: config.logs });
+    }
 
     // Cargando GRAPHQL
     let graphql = Graphql(services);

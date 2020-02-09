@@ -23,7 +23,13 @@ module.exports = async function initDomain (settings = { iop: true }) {
   }
 
   // Iniciando el módulo de logs
-  const logs = await Logs(config.db).catch(errors.handleFatalError);
+  let logs;
+  if (config.logs.storage === 'database') {
+    logs = await Logs(config.db).catch(errors.handleFatalError);
+  } else if(config.logs.storage === 'filesystem') {
+    logs = await Logs({ logsConfig: config.logs }).catch(errors.handleFatalError);
+  }
+
   repositories.Log = logs;
 
   // Cargando Value Objects que se encuentran en la carpeta value-object
