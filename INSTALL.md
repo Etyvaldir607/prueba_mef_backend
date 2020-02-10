@@ -44,15 +44,16 @@ $ npm run instalar
 
 ## Configuraciones
 
-1. Copiar archivos de configuración
+1. Copiar archivos de configuración y modificarlos según necesidad.
 
 ```sh
 $ cp src/common/config/db.js.sample src/common/config/db.js
 $ cp src/common/config/mail.js.sample src/common/config/mail.js
 $ cp src/common/config/openid.js.sample src/common/config/openid.js
+$ cp src/common/config/logs.js.sample src/common/config/logs.js
 ```
 
-2. Configurar URL, client, client_params `nano src/common/config/openid.js`
+2. Si se usa ciudadanía digital, configurar URL, client, client_params `nano src/common/config/openid.js`
 
 ```js
 const openid = {
@@ -100,6 +101,29 @@ const db = {
   dialect: 'postgres',
   timezone: 'America/La_Paz',
   logging: s => debug(s)
+};
+```
+
+5. Para configurar los logs del sistema `nano src/common/config/logs.js`
+
+```js
+const logsConfig = {
+  // Donde guardar los logs?
+  // - 'database': Guardar en la base de datos (se usa db.js para acceder)
+  // - 'filesystem': Guardar en sistema de archivos
+  storage: 'filesystem',
+  
+  // Las siguientes opciones solo se toman en cuenta si storage = 'filesystem'
+  // para mostrar los logs tambien en la consola
+  console: process.env.NODE_ENV === 'production' ? false : true,
+  // directorio con los logs
+  outputDirectory: './logs',
+  // nombre de archivo de logs
+  outputFilename: 'logs.log',
+  // formato de logs
+  format: 'combined',
+  // nivel de verbosidad, posibles: error, info, warning, debug
+  level: 'info'
 };
 ```
 
