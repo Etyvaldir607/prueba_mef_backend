@@ -141,6 +141,8 @@ $ env NODE_ENV=production npm run setup
 $ env NODE_ENV=production npm run seeders
 ```
 
+> Los seeders ponen 123456 como contraseña de los usuarios.
+
 ## Iniciar el servicio con pm2
 
 ```sh
