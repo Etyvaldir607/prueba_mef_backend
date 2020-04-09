@@ -1,6 +1,7 @@
 'use strict';
 
 const debug = require('debug')('app:controller:auth');
+const config = require('../../../../common/config');
 
 module.exports = function setupAuthController (services) {
   const { AuthService, UsuarioService } = services;
@@ -23,6 +24,10 @@ module.exports = function setupAuthController (services) {
       }
       user = user.data;
       respuesta = await UsuarioService.getResponse(user, req.ipInfo);
+      // adicional para el modulo logs
+      if (respuesta.permisos.hasOwnProperty('logs:read')) {
+        respuesta.logsType = config.logs.storage;        
+      }
     } catch (e) {
       return next(e);
     }

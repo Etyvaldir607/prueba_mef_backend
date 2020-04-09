@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('apostilla:correo');
+const debug = require('debug')('base-backend:correo');
 
 const correoConfig = {
   origen: process.env.EMAIL_SENDER || 'info@midominio.gob.bo',
