@@ -4,8 +4,7 @@
   "description": "Base backend",
   "main": "src/application/index.js",
   "scripts": {
-    "instalar": "npm install && npm run app-devs",
-    "app-devs": "git clone https://gitlab.agetic.gob.bo/base/app-iop.git node_modules/app-iop && git clone https://gitlab.agetic.gob.bo/agetic/app-notificaciones.git node_modules/app-notificaciones",
+    "start": "NODE_ENV=production node src/application/server",
     "start-dev": "DEBUG=app:* nodemon src/application/server",
     "startdev": "DEBUG=app:* nodemon src/application/server",
     "dev": "DEBUG=app:* nodemon src/application/server",

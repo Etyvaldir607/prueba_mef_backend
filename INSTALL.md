@@ -39,7 +39,7 @@ $ git branch
 4. Instalar las dependencias de paquetes npm
 
 ```sh
-$ npm run instalar
+$ npm install
 ```
 
 ## Configuraciones
@@ -112,7 +112,7 @@ const logsConfig = {
   // - 'database': Guardar en la base de datos (se usa db.js para acceder)
   // - 'filesystem': Guardar en sistema de archivos
   storage: 'filesystem',
-  
+
   // Las siguientes opciones solo se toman en cuenta si storage = 'filesystem'
   // para mostrar los logs tambien en la consola
   console: process.env.NODE_ENV === 'production' ? false : true,
@@ -129,22 +129,40 @@ const logsConfig = {
 
 ## Inicializar la base de datos
 
-1. Ejecutar lo siguiente para crear las tablas, esto eliminará las tablas y los datos de estas para reescribirlos.
+1. Crear una base de datos vacía con el nombre que definió en su conexión a la base de datos
+
+2. Ejecutar lo siguiente para crear las tablas, esto eliminará las tablas y los datos de estas para reescribirlos.
 
 ```sh
-$ env NODE_ENV=production npm run setup
+$ npm run setup
 ```
 
-2. Ejecutar lo siguiente para poblar las tablas con datos iniciales.
+3. Ejecutar lo siguiente para poblar las tablas con datos iniciales.
 
+### Para desarrollo
+```sh
+$ npm run seeders
+```
+### Para producción
 ```sh
 $ env NODE_ENV=production npm run seeders
 ```
 
 > Los seeders ponen 123456 como contraseña de los usuarios.
 
-## Iniciar el servicio con pm2
+## Iniciar el proyecto
 
+### Para desarrollo
+```sh
+$ npm run dev
+```
+
+### Para producción con PM2
+Ejecutar esto dentro el directorio del proyecto:
+```sh
+$ pm2 start npm -- start --name "proyecto-api"
+```
+ó
 ```sh
 $ env NODE_ENV=production pm2 start src/application/server.js --name "proyecto-api"
 ```
