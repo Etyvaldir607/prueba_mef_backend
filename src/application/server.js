@@ -1,6 +1,7 @@
 'use strict';
 
 const debug = require('debug')('app:app');
+require('dotenv').config();
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
@@ -15,7 +16,7 @@ const ip = require('./lib/ip');
 const { errors } = require('../common');
 const api = require('./api');
 const graphql = require('./graphql/server');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const app = express();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;

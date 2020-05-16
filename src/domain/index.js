@@ -26,7 +26,7 @@ module.exports = async function initDomain (settings = { iop: true }) {
   let logs;
   if (config.logs.storage === 'database') {
     logs = await Logs(config.db).catch(errors.handleFatalError);
-  } else if(config.logs.storage === 'filesystem') {
+  } else if (config.logs.storage === 'filesystem') {
     logs = await Logs({ logsConfig: config.logs }).catch(errors.handleFatalError);
   }
 
@@ -34,25 +34,25 @@ module.exports = async function initDomain (settings = { iop: true }) {
 
   // Cargando Value Objects que se encuentran en la carpeta value-object
   let valueObjects = util.loadClasses(path.join(__dirname, 'value-objects'),
-                                      {
-                                        exclude: ['index.js', 'ValueObject.js'],
-                                        // para excluir archivos por expresión regular
-                                        excludeRegex: [/[~|#]$/, /^(.#)/]
-                                      });
+    {
+      exclude: ['index.js', 'ValueObject.js'],
+      // para excluir archivos por expresión regular
+      excludeRegex: [/[~|#]$/, /^(.#)/]
+    });
 
   // Cargando Validaciones en base a los ValueObjects
   let validations = util.loadValidations(path.join(__dirname, 'value-objects'),
-                                         {
-                                           exclude: ['index.js', 'ValueObject.js'],
-                                           excludeRegex: [/[~|#]$/, /^(.#)/]
-                                         });
+    {
+      exclude: ['index.js', 'ValueObject.js'],
+      excludeRegex: [/[~|#]$/, /^(.#)/]
+    });
 
   // Cargando todos los servicios que se encuentran en la carpeta services y en sus subcarpetas, adjuntando logs
   let services = util.loadServices(path.join(__dirname, 'services'), repositories, valueObjects,
-                                   {
-                                     exclude: ['index.js', 'Service.js'],
-                                     excludeRegex: [/[~|#]$/, /^(.#)/]
-                                   }, logs);
+    {
+      exclude: ['index.js', 'Service.js'],
+      excludeRegex: [/[~|#]$/, /^(.#)/]
+    }, logs);
   debug('Capa del dominio - Servicios cargados');
 
   // Asignando value objects a los servicios

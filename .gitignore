@@ -4,10 +4,7 @@ yarn-error.log
 npm-debug.log
 package-lock.json
 alias.sh
-src/common/config/db.js
-src/common/config/mail.js
 src/common/config/openid.js
-src/common/config/logs.js
 src/common/lib/event-bus
 
 logs/
@@ -19,3 +16,8 @@ deploy/roles/frontend/files/base-backend
 *~
 \#*\#
 .\#*
+
+.env
+.env.local
+.env.development
+.env.production

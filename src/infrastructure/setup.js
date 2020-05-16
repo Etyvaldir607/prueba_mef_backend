@@ -41,10 +41,8 @@ async function setup () {
   let sequelize = new Sequelize(configDB);
   // Verificando conexión con la BD
   await sequelize.authenticate();
-  // let res = await sequelize.query('TRUNCATE TABLE sequelize_seeders;')
-  let res = '';
   try {
-    res = await sequelize.query('DELETE FROM sequelize_seeders;')
+    let res = await sequelize.query('DELETE FROM sequelize_seeders;');
     console.info('Eliminando sequelize_seeders', res[1].rowCount);
   } catch (error) {
     console.error(error.message);
