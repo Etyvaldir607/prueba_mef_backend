@@ -254,7 +254,7 @@ module.exports = function usuariosRepository (models, Sequelize) {
       let updated;
       try {
         if (usuario.contrasena) {
-          usuario.contrasena = text.encrypt(usuario.contrasena);
+          usuario.contrasena = await text.hashPassword(usuario.contrasena);
         }
         if (t) {
           cond.transaction = t;
@@ -274,7 +274,7 @@ module.exports = function usuariosRepository (models, Sequelize) {
     let result;
     try {
       if (usuario.contrasena) {
-        usuario.contrasena = text.encrypt(usuario.contrasena);
+        usuario.contrasena = await text.hashPassword(usuario.contrasena);
       }
       result = await usuarios.create(usuario, t ? { transaction: t } : {});
     } catch (e) {

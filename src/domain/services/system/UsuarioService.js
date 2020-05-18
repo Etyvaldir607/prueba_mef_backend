@@ -215,7 +215,7 @@ module.exports = function userService (repositories, valueObjects, res) {
         }
       }
 
-      if (!nit && result.contrasena !== text.encrypt(contrasena)) {
+      if (!nit && !await text.compare(contrasena, result.contrasena)) {
         if (result.nro_intentos !== undefined && !isNaN(result.nro_intentos)) {
           let intentos = parseInt(result.nro_intentos) + 1;
           debug('NRO. INTENTO', intentos, 'MAX. NRO. INTENTOS', nroMaxIntentos);
