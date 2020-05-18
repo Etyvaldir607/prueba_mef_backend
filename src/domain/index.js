@@ -8,15 +8,14 @@ const path = require('path');
 const Logs = require('app-logs');
 const Params = require('app-params');
 
-module.exports = async function initDomain (settings = { iop: true }) {
-  global.IOP = !!settings.iop;
+module.exports = async function initDomain () {
   // Obteniendo repositorios de la capa de infrastructura
   let repositories = await db(config.db).catch(errors.handleFatalError);
 
   // Cargando Parámetros
   repositories.Parametro = await Params(config.db);
 
-  if (global.IOP) {
+  if (process.env.IOP === 'true') {
     const Iop = require('app-iop');
     // Agregando servicio Iop a los repositorios
     repositories.Iop = await Iop(config.db);

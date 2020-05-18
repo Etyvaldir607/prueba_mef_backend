@@ -40,7 +40,7 @@
     "amqplib": "^0.5.5",
     "apollo-server-express": "^2.9.12",
     "app-iop": "git+https://gitlab.softwarelibre.gob.bo/agetic/app-iop.git",
-    "app-logs": "git+ssh://git@github.com/strymsg/app-logs.git",
+    "app-logs": "^2.0.0",
     "app-notificaciones": "git+https://gitlab.softwarelibre.gob.bo/agetic/app-notificaciones.git",
     "app-params": "^0.2.5",
     "asyncawait": "^3.0.0",

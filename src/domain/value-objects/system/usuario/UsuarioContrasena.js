@@ -15,9 +15,9 @@ class UsuarioContrasena extends ValueObject {
         tooLong: '^La contraseña necesita tener a lo mucho %{count} caracteres'
       },
       format: {
-        pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/,
+        pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*-_])[\w!@#$%^&*-_]{8,}$/,
         flags: 'g',
-        message: '^La contraseña debe tener al menos un dígito, una letra minúscula, una letra mayúscula y los siguientes caracteres: ! @ # $ % ^ & *'
+        message: '^La contraseña debe tener al menos un dígito, una letra minúscula, una letra mayúscula y los siguientes caracteres: ! @ # $ % ^ & * - _'
       }
     };
     super.validate();

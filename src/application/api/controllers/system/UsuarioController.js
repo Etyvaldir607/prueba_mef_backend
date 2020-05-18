@@ -35,14 +35,22 @@ module.exports = function setupUsuarioController (services) {
           };
           persona = { persona };
         } else {
-          if (tipoDoc === 'CI') {
-            persona = await Iop.segip.buscarPersona(ci, fechaNacimiento, complemento);
+          if (process.env.SEGIP === 'true') {
+            if (tipoDoc === 'CI') {
+              persona = await Iop.segip.buscarPersona(ci, fechaNacimiento, complemento);
+            } else {
+              return res.send({ observacion: 'La persona no está registrada en el sistema, complete los datos para registrarla.' });
+            }
           } else {
             return res.send({ observacion: 'La persona no está registrada en el sistema, complete los datos para registrarla.' });
           }
         }
       } else {
-        persona = await Iop.segip.buscarPersona(ci, fechaNacimiento, complemento);
+        if (process.env.SEGIP === 'true') {
+          persona = await Iop.segip.buscarPersona(ci, fechaNacimiento, complemento);
+        } else {
+          return res.send({ warning: 'La validación con el SEGIP está deshabilitada.' });
+        }
       }
     } catch (e) {
       return next(e);

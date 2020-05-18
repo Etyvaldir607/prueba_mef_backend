@@ -32,7 +32,7 @@ Creamos una llave ssh para poder conectarnos directamente con el servidor de pro
 
 ``` bash
 # Generamos la llave ssh dentro la carpeta deploy/ssh con el nombre deploy
-ssh-keygen -t rsa -C "ogutierrez@agetic.gob.bo - deploy"
+ssh-keygen -t rsa -C "ogutierrez@email.gob.bo - deploy"
 ```
 
 ## 5. Configurando servidor
@@ -95,7 +95,7 @@ ansible-playbook -i inventory.ini backend.yml --private-key ssh/deploy
 
 ``` bash
 # Probando conexión a la bd en el servidor de producción
-psql -U agetic apostilla
+psql -U usuario base-de-datos
 
 # Comprobamos el estado del servicio backend-admin
 systemctl status backend-admin
@@ -110,7 +110,7 @@ systemctl status backend-proxy
 
 Si se desea probar el deploy de manera local seguir los siguientes pasos:
 
-1. Requisitos.- 
+1. Requisitos.-
 - Instalar Virtualbox https://www.virtualbox.org/wiki/Downloads
 - Instalar Vagrant https://www.vagrantup.com/downloads.html
 

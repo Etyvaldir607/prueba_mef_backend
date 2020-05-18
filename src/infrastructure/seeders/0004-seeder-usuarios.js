@@ -10,7 +10,7 @@ let items = [
   {
     usuario: 'admin',
     contrasena,
-    email: 'admin@agetic.gob.bo',
+    email: 'admin@email.gob.bo',
     estado: 'ACTIVO',
     cargo: 'Profesional',
     id_persona: 1,
