@@ -116,11 +116,11 @@ module.exports = function moduloService (repositories, valueObjects, res) {
     }
 
     // si la opción de un menu tiene un solo submenu entonces se lo asigna ese submenu a esa opción
-    for (let i in menu) {
-      if (menu[i].submenu && menu[i].submenu.length === 1) {
-        menu[i] = menu[i].submenu[0];
-      }
-    }
+    // for (let i in menu) {
+    //   if (menu[i].submenu && menu[i].submenu.length === 1) {
+    //     menu[i] = menu[i].submenu[0];
+    //   }
+    // }
 
     return res.success({
       permissions,
@@ -129,7 +129,7 @@ module.exports = function moduloService (repositories, valueObjects, res) {
   }
 
   async function findAll (params = {}) {
-    debug('Lista de modulos|filtros');
+    debug('Lista de modulos|filtros', params);
 
     return Service.findAll(params, ModuloRepository, res, 'Módulos');
   }

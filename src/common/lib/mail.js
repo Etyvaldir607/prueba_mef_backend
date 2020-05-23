@@ -36,7 +36,7 @@ async function enviar (data, template = 'TEMPLATE_CORREO_BASE') {
         let mimeType = data.adjuntoBase64.split(';')[0];
         mimeType = mimeType.split(':')[1];
         settings.attachments = [{
-          filename: `archivo_adjunto.${mime.getExtension(mimeType)}`,
+          filename: `archivo_adjunto.${mime.extension(mimeType)}`,
           path: data.adjuntoBase64
         }];
       } else {

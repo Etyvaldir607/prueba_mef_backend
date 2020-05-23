@@ -37,7 +37,7 @@ function loadModels (PATH, sequelize, opts = {}) {
       array.removeAll(excluir, files);
     }
   }
-  
+
   files.forEach(function (file) {
     let pathFile = path.join(PATH, file);
     if (fs.statSync(pathFile).isDirectory()) {
@@ -139,7 +139,7 @@ function setTimestampsSeeder (arr, idUser = 1) {
   return arr;
 }
 
-function getQuery (options = {}, arr = []) {
+function getQuery (options = {}, excludeOrder = []) {
   let query = {};
 
   if (options.limit) {
@@ -149,7 +149,7 @@ function getQuery (options = {}, arr = []) {
     }
   }
 
-  if (arr.indexOf(options.order ? options.order.replace('-', '') : null) === -1) {
+  if (excludeOrder.indexOf(options.order ? options.order.replace('-', '') : null) === -1) {
     if (options.order) {
       if (options.order.startsWith('-')) {
         query.order = [[options.order.substring(1), 'DESC']];
