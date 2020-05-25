@@ -3,14 +3,12 @@
 const domain = require('../domain');
 const Params = require('app-params');
 const Logs = require('app-logs');
-const { config } = require('../common');
+const { config, mail } = require('../common');
 const Graphql = require('./graphql');
 const { mergeGraphql } = require('./lib/util');
 
 module.exports = async function setupModule (settings = { iop: true }) {
   try {
-    global.IOP = !!settings.iop;
-
     // Cargando Capa del dominio
     let services = await domain(settings);
 
@@ -33,7 +31,7 @@ module.exports = async function setupModule (settings = { iop: true }) {
     // Uniendo Graphql de usuarios con Graphql de Logs
     mergeGraphql(graphql, services.Log.graphql, ['DateL']);
 
-    if (global.IOP) {
+    if (process.env.IOP === 'true') {
       // Agregando Iop a los servicios
       const Iop = require('app-iop');
       services.Iop = await Iop(config.db);
@@ -41,6 +39,9 @@ module.exports = async function setupModule (settings = { iop: true }) {
       // Uniendo Graphql de usuarios con Graphql de Iop
       mergeGraphql(graphql, services.Iop.graphql, ['DateI']);
     }
+
+    // Configurando el envio de email
+    mail.init(services);
 
     return {
       services,

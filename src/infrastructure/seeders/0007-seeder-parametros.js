@@ -13,7 +13,7 @@ let items = [
   { nombre: 'URL_PORTAL', valor: `http://localhost:8080/#/`, label: 'URL del portal', descripcion: 'URL para acceder al portal' },
   { nombre: 'TIEMPO_BLOQUEO', valor: 10, label: 'Tiempo de bloqueo', descripcion: 'Tiempo cuando un usuario sea bloqueado en minutos' },
   { nombre: 'NRO_MAX_INTENTOS', valor: 3, label: 'Número máximo de intentos', descripcion: 'Número máximo de intentos que un usuario puede realizar el login' },
-  { nombre: 'VALIDAR_SEGIP', valor: `SI`, label: 'Validar con el SEGIP', descripcion: 'Validar con el SEGIP en la importación de csv y el servicio web de pasajeros' }
+  { nombre: 'VALIDAR_SEGIP', valor: `SI`, label: 'Validar con el SEGIP', descripcion: 'Validar con el SEGIP' }
 ];
 
 // Asignando datos de log y timestamps a los datos

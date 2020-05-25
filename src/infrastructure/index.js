@@ -21,15 +21,15 @@ module.exports = async function (config) {
     timezone: 'America/La_Paz'
   });
 
-  let sequelize = new Sequelize(config);
+  let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
   // Cargando todos los modelos que se encuentran en la carpeta models y en sus subcarpetas
   let _models = util.loadModels(path.join(__dirname, 'models'), sequelize,
-                                {
-                                  exclude: ['index.js'],
-                                  // para excluir archivos por expresión regular
-                                  excludeRegex: [/[~|#]$/, /^(.#)/]
-                                });
+    {
+      exclude: ['index.js'],
+      // para excluir archivos por expresión regular
+      excludeRegex: [/[~|#]$/, /^(.#)/]
+    });
   _models = util.convertLinealObject(_models);
 
   // Cargando asociaciones entre las tablas

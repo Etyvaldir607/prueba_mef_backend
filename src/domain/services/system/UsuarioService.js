@@ -3,9 +3,8 @@
 const debug = require('debug')('app:service:usuario');
 const moment = require('moment');
 const crypto = require('crypto');
-const { text } = require('../../../common');
+const { text, mail } = require('../../../common');
 const { generateToken } = require('../../../application/lib/auth');
-const ClienteNotificaciones = require('app-notificaciones');
 const Service = require('../Service');
 
 module.exports = function userService (repositories, valueObjects, res) {
@@ -216,7 +215,7 @@ module.exports = function userService (repositories, valueObjects, res) {
         }
       }
 
-      if (!nit && result.contrasena !== text.encrypt(contrasena)) {
+      if (!nit && !await text.compare(contrasena, result.contrasena)) {
         if (result.nro_intentos !== undefined && !isNaN(result.nro_intentos)) {
           let intentos = parseInt(result.nro_intentos) + 1;
           debug('NRO. INTENTO', intentos, 'MAX. NRO. INTENTOS', nroMaxIntentos);
@@ -350,18 +349,11 @@ module.exports = function userService (repositories, valueObjects, res) {
       };
       await UsuarioRepository.createOrUpdate(data);
 
-      let pne = await Iop.findByCode('PNE-01');
-      let cli = new ClienteNotificaciones(pne.token, pne.url);
-      const email = {
+      let correo = await mail.enviar({
         para: [datos.email],
-        asunto: 'Nueva contraseña - APP',
-        contenido: `<br> Nueva contraseña: <strong>${contrasena}</strong>`
-      };
-      let correo = await cli.correo(email);
-      debug('Respuesta envio correo', correo);
-      if (correo && !correo.finalizado) {
-        return res.error(new Error('No se pudo enviar el correo'));
-      }
+        asunto: '<br> Nueva contraseña - APP',
+        contenido: `Nueva contraseña: <strong>${contrasena}</strong>`
+      });
       return res.success(correo);
     } catch (e) {
       return res.error(e);

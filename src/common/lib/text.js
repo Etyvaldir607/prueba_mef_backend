@@ -1,11 +1,14 @@
 'use strict';
 
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const saltRounds = 5;
 
-function encrypt (password) {
-  let shasum = crypto.createHash('sha256');
-  shasum.update(password);
-  return shasum.digest('hex');
+function hashPassword (text) {
+  return bcrypt.hash(text, saltRounds);
+}
+
+function compare (text, hash) {
+  return bcrypt.compare(text, hash);
 }
 
 function nano (template, data) {
@@ -20,5 +23,6 @@ function nano (template, data) {
 
 module.exports = {
   nano,
-  encrypt
+  hashPassword,
+  compare
 };

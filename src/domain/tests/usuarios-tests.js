@@ -100,7 +100,7 @@ test.serial('UsuarioService#createOrUpdate - new', async t => {
   t.true(typeof usuario.id === 'number', 'Comprobando que el nuevo usuario tenga un id');
   t.is(usuario.usuario, nuevoUsuario.usuario, 'Creando registro - usuario');
   t.is(usuario.email, nuevoUsuario.email, 'Creando registro - email');
-  t.is(usuario.contrasena, text.encrypt(nuevoUsuario.contrasena), 'Creando registro - contraseña');
+  t.true(await text.compare(nuevoUsuario.contrasena, usuario.contrasena), 'Creando registro - contraseña');
   t.is(res.message, 'OK', 'Mensaje correcto');
 
   test.idUser = usuario.id;

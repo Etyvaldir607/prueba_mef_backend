@@ -4,7 +4,6 @@ const test = require('ava');
 const { config, errors } = require('../../common');
 const db = require('../');
 const { text } = require('../../common');
-const contrasena = text.encrypt('123456');
 
 let repositories;
 
@@ -44,7 +43,7 @@ test.serial('Usuario#createOrUpdate - new', async t => {
   let usuario = `admin-${parseInt(Math.random() * 10000)}`;
   const nuevoUsuario = {
     usuario,
-    contrasena,
+    contrasena: await text.hashPassword('123456'),
     email: `${usuario}@mail.com`,
     estado: 'ACTIVO',
     cargo: 'Jefe',

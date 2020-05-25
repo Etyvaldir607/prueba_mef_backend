@@ -2,7 +2,6 @@
 
 const Sequelize = require('sequelize');
 const Params = require('app-params');
-const Iop = require('app-iop');
 const minimist = require('minimist');
 const inquirer = require('inquirer');
 const { errors, config } = require('../common');
@@ -36,15 +35,16 @@ async function setup () {
   await Params(configDB);
 
   // Cargando Servicios Iop
-  await Iop(configDB);
+  if (process.env.IOP === 'true') {
+    const Iop = require('app-iop');
+    await Iop(configDB);
+  }
 
   let sequelize = new Sequelize(configDB);
   // Verificando conexión con la BD
   await sequelize.authenticate();
-  // let res = await sequelize.query('TRUNCATE TABLE sequelize_seeders;')
-  let res = '';
   try {
-    res = await sequelize.query('DELETE FROM sequelize_seeders;')
+    let res = await sequelize.query('DELETE FROM sequelize_seeders;');
     console.info('Eliminando sequelize_seeders', res[1].rowCount);
   } catch (error) {
     console.error(error.message);

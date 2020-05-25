@@ -60,7 +60,11 @@ items = setTimestampsSeeder(items);
 
 module.exports = {
   up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('servicios_iop', items, {});
+    if (process.env.IOP === 'true') {
+      return queryInterface.bulkInsert('servicios_iop', items, {});
+    } else {
+      return Promise.resolve(true);
+    }
   },
 
   down (queryInterface, Sequelize) { }

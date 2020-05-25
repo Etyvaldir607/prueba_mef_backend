@@ -10,12 +10,9 @@ let configSeeder = {
     'host': config.db.host,
     'seederStorage': 'sequelize',
     'seederStorageTableName': 'sequelize_seeders',
-    'dialect': 'postgres',
-    'pool': {
-      'max': 15,
-      'min': 0,
-      'idle': 10000
-    }
+    'dialect': config.db.dialect,
+    'pool': config.db.pool,
+    'dialectOptions': config.db.dialectOptions
   },
   'production': {
     'username': config.db.username,
@@ -24,12 +21,9 @@ let configSeeder = {
     'host': config.db.host,
     'seederStorage': 'sequelize',
     'seederStorageTableName': 'sequelize_seeders',
-    'dialect': 'postgres',
-    'pool': {
-      'max': 15,
-      'min': 0,
-      'idle': 10000
-    }
+    'dialect': config.db.dialect,
+    'pool': config.db.pool,
+    'dialectOptions': config.db.dialectOptions
   }
 };
 

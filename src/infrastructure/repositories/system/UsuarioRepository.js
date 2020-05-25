@@ -9,7 +9,10 @@ module.exports = function usuariosRepository (models, Sequelize) {
   const Op = Sequelize.Op;
 
   async function findAll (params = {}) {
-    let query = getQuery(params);
+    let query = getQuery(params, ['nombre_completo']);
+    if (typeof params.order === 'string' && params.order.indexOf('nombre_completo') !== -1) {
+      query.order = [['persona', 'primer_apellido', params.order.indexOf('-') !== -1 ? 'DESC' : 'ASC']];
+    }
     query.where = {};
 
     query.include = [
@@ -254,7 +257,7 @@ module.exports = function usuariosRepository (models, Sequelize) {
       let updated;
       try {
         if (usuario.contrasena) {
-          usuario.contrasena = text.encrypt(usuario.contrasena);
+          usuario.contrasena = await text.hashPassword(usuario.contrasena);
         }
         if (t) {
           cond.transaction = t;
@@ -274,7 +277,7 @@ module.exports = function usuariosRepository (models, Sequelize) {
     let result;
     try {
       if (usuario.contrasena) {
-        usuario.contrasena = text.encrypt(usuario.contrasena);
+        usuario.contrasena = await text.hashPassword(usuario.contrasena);
       }
       result = await usuarios.create(usuario, t ? { transaction: t } : {});
     } catch (e) {

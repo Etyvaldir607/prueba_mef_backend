@@ -40,7 +40,7 @@ test.serial('EntidadService#createOrUpdate - new', async t => {
     email: 'yoyo@gmail.com',
     telefonos: '4535345',
     direccion: 'Av x. Nro1234',
-    web: 'http://agetic.gob.bo',
+    web: 'http://dominio.gob.bo',
     estado: 'ACTIVO',
     _user_created: 1,
     _created_at: new Date()

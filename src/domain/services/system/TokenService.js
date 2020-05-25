@@ -1,11 +1,11 @@
 'use strict';
 
 const debug = require('debug')('app:service:token');
-const ClienteNotificaciones = require('app-notificaciones');
+const { mail } = require('../../../common');
 const Service = require('../Service');
 
 module.exports = function tokenService (repositories, valueObjects, res) {
-  const { TokenRepository, UsuarioRepository, EntidadRepository, Iop } = repositories;
+  const { TokenRepository, UsuarioRepository, EntidadRepository } = repositories;
   const {
     TokenToken,
     TokenTipo,
@@ -52,21 +52,12 @@ module.exports = function tokenService (repositories, valueObjects, res) {
       result = await TokenRepository.createOrUpdate(data);
 
       if (result && datos.email) {
-        let pne = await Iop.findByCode('PNE-01');
-        let cli = new ClienteNotificaciones(pne.token, pne.url);
-
-        const parametros = {
+        await mail.enviar({
           para: [datos.email],
           asunto: 'Token de acceso - APP',
           contenido: `<br> Token de acceso tipo ${data.tipo}:<br><br><small>Revise el archivo adjunto.</small>`,
           adjuntoBase64: `data:text/plain;base64,${Buffer.from(data.token).toString('base64')}`
-        };
-
-        let correo = await cli.correo(parametros);
-        debug('Respuesta envio correo', correo);
-        if (correo && !correo.finalizado) {
-          return res.warning(new Error('No se pudo enviar el correo'));
-        }
+        });
       }
     } catch (e) {
       return res.error(e);
