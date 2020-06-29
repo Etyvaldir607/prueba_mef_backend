@@ -2,7 +2,7 @@
 
 const { permissions } = require('../../../lib/auth');
 
-module.exports = function setupResolver (services) {
+module.exports = function setupResolver (services, res) {
   const { PermisoService } = services;
 
   return {
@@ -10,14 +10,14 @@ module.exports = function setupResolver (services) {
       permisos: async (_, args, context) => {
         permissions(context, 'permisos:read');
 
-        let lista = await PermisoService.findAll(args);
-        return lista.data;
+        let items = await PermisoService.findAll(args);
+        return res(items);
       },
       permiso: async (_, args, context) => {
         permissions(context, 'permisos:read');
 
         let item = await PermisoService.findById(args.id);
-        return item.data;
+        return res(item);
       }
     },
     Mutation: {
@@ -26,7 +26,7 @@ module.exports = function setupResolver (services) {
 
         args.permiso._user_created = context.id_usuario;
         let item = await PermisoService.createOrUpdate(args.permiso);
-        return item.data;
+        return res(item);
       },
       permisoEdit: async (_, args, context) => {
         permissions(context, 'permisos:update');
@@ -35,13 +35,13 @@ module.exports = function setupResolver (services) {
         args.permiso._updated_at = new Date();
         args.permiso.id = args.id;
         let item = await PermisoService.createOrUpdate(args.permiso);
-        return item.data;
+        return res(item);
       },
       permisoDelete: async (_, args, context) => {
         permissions(context, 'permisos:delete');
 
         let deleted = await PermisoService.deleteItem(args.id);
-        return { deleted: deleted.data };
+        return { deleted: res(deleted) };
       }
     }
   };

@@ -4,6 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const Duplex = require('stream').Duplex;
 
+function response (data) {
+  if (data.code === -1) {
+    throw new Error(data.message);
+  } else {
+    return data.data;
+  }
+}
+
 function loadGraphqlFile (PATH, opts = {}, services) {
   let files = fs.readdirSync(PATH);
 
@@ -42,7 +50,7 @@ function loadGraphqlFile (PATH, opts = {}, services) {
       } else if (file.lastIndexOf('Mutation') !== -1) {
         mutations += fs.readFileSync(pathFile, 'utf8');
       } else if (file.lastIndexOf('Resolver') !== -1) {
-        const data = require(pathFile)(services);
+        const data = require(pathFile)(services, response);
         if (data.Query) {
           resolvers.Query = Object.assign(resolvers.Query, data.Query);
         }
@@ -228,5 +236,6 @@ module.exports = {
   bufferToStream,
   createObject,
   loadGraphqlFile,
-  loadControllers
+  loadControllers,
+  response
 };
