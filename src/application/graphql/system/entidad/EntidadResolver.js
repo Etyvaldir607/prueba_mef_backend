@@ -1,7 +1,7 @@
 'use strict';
 const { permissions } = require('../../../lib/auth');
 
-module.exports = function setupResolver (services) {
+module.exports = function setupResolver (services, res) {
   const { EntidadService } = services;
 
   return {
@@ -10,13 +10,13 @@ module.exports = function setupResolver (services) {
         permissions(context, 'entidades:read|usuarios:read');
 
         let items = await EntidadService.findAll(args, context.rol, context.id_entidad);
-        return items.data;
+        return res(items);
       },
       entidad: async (_, args, context) => {
         permissions(context, 'entidades:read');
 
         let item = await EntidadService.findById(args.id);
-        return item.data;
+        return res(item);
       }
     },
     Mutation: {
@@ -25,7 +25,7 @@ module.exports = function setupResolver (services) {
 
         args.entidad._user_created = context.id_usuario;
         let item = await EntidadService.createOrUpdate(args.entidad);
-        return item.data;
+        return res(item);
       },
       entidadEdit: async (_, args, context) => {
         permissions(context, 'entidades:update');
@@ -34,13 +34,13 @@ module.exports = function setupResolver (services) {
         args.entidad._updated_at = new Date();
         args.entidad.id = args.id;
         let item = await EntidadService.createOrUpdate(args.entidad);
-        return item.data;
+        return res(item);
       },
       entidadDelete: async (_, args, context) => {
         permissions(context, 'entidades:delete');
 
         let deleted = await EntidadService.deleteItem(args.id);
-        return { deleted: deleted.data };
+        return { deleted: res(deleted) };
       }
     }
   };

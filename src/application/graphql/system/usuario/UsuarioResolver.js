@@ -2,7 +2,7 @@
 
 const { permissions } = require('../../../lib/auth');
 
-module.exports = function setupResolver (services) {
+module.exports = function setupResolver (services, res) {
   const { UsuarioService } = services;
 
   return {
@@ -10,18 +10,18 @@ module.exports = function setupResolver (services) {
       usuarios: async (_, args, context) => {
         permissions(context, 'usuarios:read');
 
-        let lista = await UsuarioService.findAll(args, context.rol, context.id_entidad);
-        return lista.data;
+        let items = await UsuarioService.findAll(args, context.rol, context.id_entidad);
+        return res(items);
       },
       usuario: async (_, args, context) => {
         permissions(context, 'usuarios:read');
 
         let item = await UsuarioService.findById(args.id);
-        return item.data;
+        return res(item);
       },
       usuarioOnlyToken: async (_, args, context) => {
         let item = await UsuarioService.findById(args.id);
-        return item.data;
+        return res(item);
       }
     },
     Mutation: {
@@ -30,7 +30,7 @@ module.exports = function setupResolver (services) {
 
         args.usuario._user_created = context.id_usuario;
         let item = await UsuarioService.createOrUpdate(args.usuario, context.rol, context.id_entidad);
-        return item.data;
+        return res(item);
       },
       usuarioEdit: async (_, args, context) => {
         permissions(context, 'usuarios:update');
@@ -39,7 +39,7 @@ module.exports = function setupResolver (services) {
         args.usuario._updated_at = new Date();
         args.usuario.id = args.id;
         let item = await UsuarioService.createOrUpdate(args.usuario);
-        return item.data;
+        return res(item);
       },
       usuarioUpdate: async (_, args, context) => {
         permissions(context, 'usuarios:update');
@@ -48,13 +48,13 @@ module.exports = function setupResolver (services) {
         args.usuario._updated_at = new Date();
         args.usuario.id = args.id;
         let item = await UsuarioService.update(args.usuario);
-        return item.data;
+        return res(item);
       },
       usuarioDelete: async (_, args, context) => {
         permissions(context, 'usuarios:delete');
 
         let deleted = await UsuarioService.deleteItem(args.id);
-        return { deleted: deleted.data };
+        return { deleted: res(deleted) };
       }
     }
   };

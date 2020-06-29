@@ -1,7 +1,7 @@
 'use strict';
 const { permissions } = require('../../../lib/auth');
 
-module.exports = function setupResolver (services) {
+module.exports = function setupResolver (services, res) {
   const { ModuloService } = services;
 
   return {
@@ -10,13 +10,13 @@ module.exports = function setupResolver (services) {
         permissions(context, 'modulos:read');
 
         let items = await ModuloService.findAll(args);
-        return items.data;
+        return res(items);
       },
       modulo: async (_, args, context) => {
         permissions(context, 'modulos:read');
 
         let items = await ModuloService.findById(args.id);
-        return items.data;
+        return res(items);
       }
     },
     Mutation: {
@@ -25,7 +25,7 @@ module.exports = function setupResolver (services) {
 
         args.modulo._user_created = context.id_usuario;
         let item = await ModuloService.createOrUpdate(args.modulo);
-        return item.data;
+        return res(item);
       },
       moduloEdit: async (_, args, context) => {
         permissions(context, 'modulos:update');
@@ -34,13 +34,13 @@ module.exports = function setupResolver (services) {
         args.modulo._updated_at = new Date();
         args.modulo.id = args.id;
         let item = await ModuloService.createOrUpdate(args.modulo);
-        return item.data;
+        return res(item);
       },
       moduloDelete: async (_, args, context) => {
         permissions(context, 'modulos:delete');
 
         let deleted = await ModuloService.deleteItem(args.id);
-        return { deleted: deleted.data };
+        return { deleted: res(deleted) };
       }
     }
   };

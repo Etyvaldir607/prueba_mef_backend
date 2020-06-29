@@ -1,7 +1,7 @@
 'use strict';
 const { permissions } = require('../../../lib/auth');
 
-module.exports = function setupResolver (services) {
+module.exports = function setupResolver (services, res) {
   const { RolService } = services;
 
   return {
@@ -10,13 +10,13 @@ module.exports = function setupResolver (services) {
         permissions(context, 'roles:read|usuarios:read');
 
         let items = await RolService.findAll(args, context.rol);
-        return items.data;
+        return res(items);
       },
       rol: async (_, args, context) => {
         permissions(context, 'roles:read');
 
         let items = await RolService.findById(args.id);
-        return items.data;
+        return res(items);
       }
     },
     Mutation: {
@@ -25,7 +25,7 @@ module.exports = function setupResolver (services) {
 
         args.rol._user_created = context.id_usuario;
         let item = await RolService.createOrUpdate(args.rol);
-        return item.data;
+        return res(item);
       },
       rolEdit: async (_, args, context) => {
         permissions(context, 'roles:update');
@@ -34,13 +34,13 @@ module.exports = function setupResolver (services) {
         args.rol._updated_at = new Date();
         args.rol.id = args.id;
         let item = await RolService.createOrUpdate(args.rol);
-        return item.data;
+        return res(item);
       },
       rolDelete: async (_, args, context) => {
         permissions(context, 'roles:delete');
 
         let deleted = await RolService.deleteItem(args.id);
-        return { deleted: deleted.data };
+        return { deleted: res(deleted) };
       }
     }
   };
