@@ -1,0 +1,15 @@
+# Lista de tareas
+tareas(
+  # Límite de la consulta para la paginación
+  limit: Int
+  # Nro. de página para la paginación
+  page: Int
+  # Campo a ordenar, "-campo" ordena descendentemente
+  order: String
+  # Buscar por nombre
+  nombre: String
+  # Buscar por estado
+  estado: EstadoTarea
+): Tareas
+# Obtener un tarea
+tarea(id: ID!): Tarea

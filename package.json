@@ -4,16 +4,16 @@
   "description": "Base backend",
   "main": "src/application/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node src/application/server",
-    "start-dev": "DEBUG=app:* nodemon src/application/server",
-    "startdev": "DEBUG=app:* nodemon src/application/server",
-    "dev": "DEBUG=app:* nodemon src/application/server",
-    "secure": "NODE_ENV=secure DEBUG=app:* nodemon src/application/server",
+    "start": "node src/application/server",
+    "start-dev": "nodemon src/application/server",
+    "startdev": "nodemon src/application/server",
+    "dev": "nodemon src/application/server",
+    "secure": "NODE_ENV=secure nodemon src/application/server",
     "test": "npm run setup && npm run seeders && npm run test-db && npm run test-domain",
     "test-db": "ava src/infrastructure/tests/ --verbose",
     "test-domain": "ava src/domain/tests/ --verbose",
-    "test-common": "DEBUG=app:* ava src/common/tests/ --verbose",
-    "setup": "DEBUG=app:* node src/infrastructure/setup.js",
+    "test-common": "ava src/common/tests/ --verbose",
+    "setup": "node src/infrastructure/setup.js",
     "seeders": "sequelize db:seed:all --seeders-path src/infrastructure/seeders --config src/infrastructure/lib/config-seeders.js",
     "seeders-migrations": "sequelize db:migrate --migrations-path src/infrastructure/seeders-migrations --config src/infrastructure/lib/config-seeders.js",
     "seeders-prod": "NODE_ENV=production npm run seeders",
@@ -51,6 +51,7 @@
     "chalk": "^3.0.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
+    "debug": "^4.3.2",
     "defaults": "^1.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -78,7 +79,7 @@
   },
   "devDependencies": {
     "ava": "^1.4.1",
-    "nodemon": "^2.0.1",
+    "nodemon": "^2.0.12",
     "semistandard": "^13.0.1"
   }
 }

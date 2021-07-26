@@ -1,0 +1,6 @@
+# Agregar tarea
+tareaAdd(tarea: NewTarea!): Tarea
+# Editar tarea
+tareaEdit(id: ID!, tarea: EditTarea!): Tarea
+# Eliminar tarea
+tareaDelete(id: ID!): Delete

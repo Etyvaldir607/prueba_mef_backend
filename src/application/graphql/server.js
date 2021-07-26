@@ -34,6 +34,7 @@ module.exports = async function setupGraphql (app, services, graphql) {
         message: error.message
       };
     },
+    
     context: async ({ req }) => {
       let data;
       try {
@@ -56,6 +57,7 @@ module.exports = async function setupGraphql (app, services, graphql) {
         throw new Error(e);
       }
     },
+    
     playground: {
       endpoint: `http://localhost:3000/graphql`,
       settings: {

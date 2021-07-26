@@ -83,6 +83,15 @@ let items = [
     estado: 'ACTIVO',
     visible: false,
     id_modulo: 1
+  },
+  // añadiendo ruta para el sistema
+  {
+    label: 'Tareas',
+    ruta: 'tareas',
+    orden: 11,
+    estado: 'ACTIVO',
+    visible: true,
+    id_modulo: 1
   }
 ];
 
